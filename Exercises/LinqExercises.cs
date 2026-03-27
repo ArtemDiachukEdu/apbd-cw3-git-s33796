@@ -48,7 +48,10 @@ public sealed class LinqExercises
     /// </summary>
     public IEnumerable<string> Task03_StudentsSortedAlphabetically()
     {
-        throw NotImplemented(nameof(Task03_StudentsSortedAlphabetically));
+        return UniversityData.Students
+            .OrderBy(s => s.LastName)
+            .ThenBy(s => s.FirstName)
+            .Select(s => $"{s.IndexNumber}: {s.LastName} {s.FirstName}");
     }
 
     /// <summary>
@@ -63,7 +66,12 @@ public sealed class LinqExercises
     /// </summary>
     public IEnumerable<string> Task04_FirstAnalyticsCourse()
     {
-        throw NotImplemented(nameof(Task04_FirstAnalyticsCourse));
+        var course = UniversityData.Courses
+            .FirstOrDefault(c => c.Category == "Analytics");
+
+        return course != null 
+            ? new[] { $"Found: {course.Title} (Category: {course.Category}, Starts: {course.StartDate:d})" } 
+            : new[] { "No course found in the Analytics category." };
     }
 
     /// <summary>
