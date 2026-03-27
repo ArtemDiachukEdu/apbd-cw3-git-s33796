@@ -195,7 +195,11 @@ public sealed class LinqExercises
     /// </summary>
     public IEnumerable<string> Task11_JoinStudentsWithEnrollments()
     {
-        throw NotImplemented(nameof(Task11_JoinStudentsWithEnrollments));
+        return UniversityData.Students
+            .Join(UniversityData.Enrollments, 
+                student => student.Id, 
+                enrollment => enrollment.StudentId, 
+                (student, enrollment) => $"{student.FirstName} {student.LastName} - Enrolled on: {enrollment.EnrollmentDate:d}");
     }
 
     /// <summary>
@@ -211,7 +215,15 @@ public sealed class LinqExercises
     /// </summary>
     public IEnumerable<string> Task12_StudentCoursePairs()
     {
-        throw NotImplemented(nameof(Task12_StudentCoursePairs));
+        return UniversityData.Enrollments
+            .Join(UniversityData.Students, 
+                e => e.StudentId, 
+                s => s.Id, 
+                (e, s) => new { s.FirstName, s.LastName, e.CourseId })
+            .Join(UniversityData.Courses, 
+                combined => combined.CourseId, 
+                c => c.Id, 
+                (combined, c) => $"{combined.FirstName} {combined.LastName} is taking {c.Title}");
     }
 
     /// <summary>
