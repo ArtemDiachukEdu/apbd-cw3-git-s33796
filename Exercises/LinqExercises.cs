@@ -88,7 +88,10 @@ public sealed class LinqExercises
     /// </summary>
     public IEnumerable<string> Task05_IsThereAnyInactiveEnrollment()
     {
-        throw NotImplemented(nameof(Task05_IsThereAnyInactiveEnrollment));
+        bool hasInactive = UniversityData.Enrollments.Any(e => !e.IsActive);
+        
+        return new[] { hasInactive ? "Yes, there is at least one inactive enrollment." :
+            "No, all enrollments are active." };
     }
 
     /// <summary>
@@ -103,7 +106,10 @@ public sealed class LinqExercises
     /// </summary>
     public IEnumerable<string> Task06_DoAllLecturersHaveDepartment()
     {
-        throw NotImplemented(nameof(Task06_DoAllLecturersHaveDepartment));
+        bool allHaveDept = UniversityData.Lecturers.All(l => !string.IsNullOrWhiteSpace(l.Department));
+        
+        return new[] { allHaveDept ? "Yes, every lecturer has a department." :
+            "No, some lecturers are missing a department." };
     }
 
     /// <summary>
