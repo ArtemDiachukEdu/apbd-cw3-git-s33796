@@ -328,7 +328,14 @@ public sealed class LinqExercises
     /// </summary>
     public IEnumerable<string> Challenge01_StudentsWithMoreThanOneActiveCourse()
     {
-        throw NotImplemented(nameof(Challenge01_StudentsWithMoreThanOneActiveCourse));
+        return UniversityData.Enrollments
+            .Where(e => e.IsActive)
+            .GroupBy(e => e.StudentId)
+            .Where(group => group.Count() > 1)
+            .Join(UniversityData.Students, 
+                group => group.Key, 
+                student => student.Id, 
+                (group, student) => $"{student.FirstName} {student.LastName}: {group.Count()} active courses");
     }
 
     /// <summary>
@@ -345,7 +352,14 @@ public sealed class LinqExercises
     /// </summary>
     public IEnumerable<string> Challenge02_AprilCoursesWithoutFinalGrades()
     {
-        throw NotImplemented(nameof(Challenge02_AprilCoursesWithoutFinalGrades));
+        return UniversityData.Courses
+            .Where(c => c.StartDate.Month == 4 && c.StartDate.Year == 2026)
+            .GroupJoin(UniversityData.Enrollments, 
+                course => course.Id, 
+                enrollment => enrollment.CourseId, 
+                (course, enrollments) => new { course.Title, enrollments })
+            .Where(x => x.enrollments.All(e => e.FinalGrade == null))
+            .Select(x => x.Title);
     }
 
     /// <summary>
