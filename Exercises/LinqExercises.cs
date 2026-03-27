@@ -238,7 +238,12 @@ public sealed class LinqExercises
     /// </summary>
     public IEnumerable<string> Task13_GroupEnrollmentsByCourse()
     {
-        throw NotImplemented(nameof(Task13_GroupEnrollmentsByCourse));
+        return UniversityData.Enrollments
+            .GroupBy(e => e.CourseId)
+            .Join(UniversityData.Courses, 
+                group => group.Key, 
+                course => course.Id, 
+                (group, course) => $"{course.Title}: {group.Count()} enrollments");
     }
 
     /// <summary>
@@ -255,7 +260,14 @@ public sealed class LinqExercises
     /// </summary>
     public IEnumerable<string> Task14_AverageGradePerCourse()
     {
-        throw NotImplemented(nameof(Task14_AverageGradePerCourse));
+        return UniversityData.Enrollments
+            .Where(e => e.FinalGrade.HasValue)
+            .GroupBy(e => e.CourseId)
+            .Join(UniversityData.Courses, 
+                group => group.Key, 
+                course => course.Id, 
+                (group, course) =>
+                    $"{course.Title}: Average Grade = {group.Average(e => e.FinalGrade):F2}");
     }
 
     /// <summary>
