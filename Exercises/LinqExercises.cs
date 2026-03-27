@@ -123,7 +123,9 @@ public sealed class LinqExercises
     /// </summary>
     public IEnumerable<string> Task07_CountActiveEnrollments()
     {
-        throw NotImplemented(nameof(Task07_CountActiveEnrollments));
+        var count = UniversityData.Enrollments.Count(e => e.IsActive);
+        
+        return new[] { $"Number of active enrollments: {count}" };
     }
 
     /// <summary>
@@ -137,7 +139,10 @@ public sealed class LinqExercises
     /// </summary>
     public IEnumerable<string> Task08_DistinctStudentCities()
     {
-        throw NotImplemented(nameof(Task08_DistinctStudentCities));
+        return UniversityData.Students
+            .Select(s => s.City)
+            .Distinct()
+            .OrderBy(city => city);
     }
 
     /// <summary>
