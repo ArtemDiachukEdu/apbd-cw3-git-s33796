@@ -283,7 +283,11 @@ public sealed class LinqExercises
     /// </summary>
     public IEnumerable<string> Task15_LecturersAndCourseCounts()
     {
-        throw NotImplemented(nameof(Task15_LecturersAndCourseCounts));
+        return UniversityData.Lecturers
+            .GroupJoin(UniversityData.Courses, 
+                lecturer => lecturer.Id, 
+                course => course.LecturerId, 
+                (lecturer, courses) => $"{lecturer.FirstName} {lecturer.LastName}: {courses.Count()} courses");
     }
 
     /// <summary>
@@ -300,7 +304,13 @@ public sealed class LinqExercises
     /// </summary>
     public IEnumerable<string> Task16_HighestGradePerStudent()
     {
-        throw NotImplemented(nameof(Task16_HighestGradePerStudent));
+        return UniversityData.Enrollments
+            .Where(e => e.FinalGrade.HasValue)
+            .GroupBy(e => e.StudentId)
+            .Join(UniversityData.Students, 
+                group => group.Key, 
+                student => student.Id, 
+                (group, student) => $"{student.FirstName} {student.LastName}: Max Grade = {group.Max(e => e.FinalGrade)}");
     }
 
     /// <summary>
